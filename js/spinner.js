@@ -23,15 +23,20 @@
     precision: 0
   }
 
-  Spinner.prototype.change = function (relatedTarget) {
-    var num = new Number($(relatedTarget).data('value'));
+  Spinner.prototype.add = function (relatedTarget) {
+    this.change($(relatedTarget).data('value'))
+  }
 
-    if (isNaN(num)) return
-    var currentVal = new Number(this.$element.val())
-    var newVal = currentVal + num
-    newVal = newVal.toFixed(this.options.precision)
+  Spinner.prototype.change = function (num) {
+    if (typeof num !== "number") num = new Number(num)
+    var current = new Number(this.$element.val())
 
-    var e = $.Event('change.bs.spinner', { target: this.$element, relatedTarget: relatedTarget })
+    // TODO: improve insane data handling
+    if (isNaN(num) || isNaN(current) || num == 0) return
+    var newVal = current + num
+    newVal = newVal.toFixed(this.options.precision);
+
+    var e = $.Event('change.bs.spinner', { target: this.$element, relatedTarget: num })
     this.$element.trigger(e)
 
     if (num < 0) {
@@ -40,7 +45,7 @@
       if (newVal >= this.options.max) newVal = this.options.max
     }
 
-    this.$element.val(newVal);
+    this.$element.val(newVal)
   }
 
   // SPINNER PLUGIN DEFINITION
@@ -53,11 +58,12 @@
       var $this   = $(this)
       var data    = $this.data('bs.spinner')
       var options = $.extend({}, Spinner.DEFAULTS, $this.data(), typeof option == 'object' && option)
+      var action  = typeof option == 'string' ? option : 'add'
 
       if (!data) $this.data('bs.spinner', (data = new Spinner(this, options)))
 
-      if (typeof option == 'string') data[option](relatedTarget)
-      else data['change'](relatedTarget)
+      if (typeof option == 'number') data.change(option)
+      else if (action) data[action](relatedTarget)
     })
   }
 
@@ -78,7 +84,7 @@
     var $this   = $(this)
     var href    = $this.attr('href')
     var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-    var option  = $target.data('bs.spinner') ? 'change' : $target.data()
+    var option  = $target.data('bs.spinner') ? 'add' : $target.data()
 
     if ($this.is('a')) e.preventDefault()
 
