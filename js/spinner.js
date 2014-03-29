@@ -1,76 +1,88 @@
 /* ========================================================================
  * Bootstrap: spinner.js v3.1.1
  * http://
+ * ========================================================================
+ * Copyright 2014 Márk Sági-Kazár
+ * Licensed under MIT (https://github.com/indigojs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
-$('.btn-number').click(function(e){
-  e.preventDefault();
++function ($) {
+  'use strict';
 
-  fieldName = $(this).attr('data-field');
-  type      = $(this).attr('data-type');
-  var input = $("input[name='"+fieldName+"']");
-  var currentVal = parseInt(input.val());
+  // SPINNER CLASS DEFINITION
+  // =========================
 
-  if (!isNaN(currentVal)) {
-    if(type == 'minus') {
-      if(currentVal > input.attr('min')) {
-        input.val(currentVal - 1).change();
-      }
-      if(parseInt(input.val()) == input.attr('min')) {
-        $(this).attr('disabled', true);
-      }
-    } else if(type == 'plus') {
-      if(currentVal < input.attr('max')) {
-        input.val(currentVal + 1).change();
-      }
-      if(parseInt(input.val()) == input.attr('max')) {
-        $(this).attr('disabled', true);
-      }
+  var Spinner = function (element, options) {
+    this.$element = $(element)
+    this.options  = options
+  }
+
+  Spinner.DEFAULTS = {
+    min: 0,
+    max: Infinity,
+    precision: 0
+  }
+
+  Spinner.prototype.change = function (relatedTarget) {
+    var num = new Number($(relatedTarget).data('value'));
+
+    if (isNaN(num)) return
+    var currentVal = new Number(this.$element.val())
+    var newVal = currentVal + num
+    newVal = newVal.toFixed(this.options.precision)
+
+    var e = $.Event('change.bs.spinner', { target: this.$element, relatedTarget: relatedTarget })
+    this.$element.trigger(e)
+
+    if (num < 0) {
+      if (newVal <= this.options.min) newVal = this.options.min
+    } else {
+      if (newVal >= this.options.max) newVal = this.options.max
     }
-  } else {
-    input.val(0);
-  }
-});
 
-$('.input-number').focusin(function(){
-  $(this).data('oldValue', $(this).val());
-});
-
-$('.input-number').change(function() {
-  minValue =  parseInt($(this).attr('min'));
-  maxValue =  parseInt($(this).attr('max'));
-  valueCurrent = parseInt($(this).val());
-
-  name = $(this).attr('name');
-
-  if(valueCurrent >= minValue) {
-    $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
-  } else {
-    alert('Sorry, the minimum value was reached');
-    $(this).val($(this).data('oldValue'));
+    this.$element.val(newVal);
   }
 
-  if(valueCurrent <= maxValue) {
-    $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
-  } else {
-    alert('Sorry, the maximum value was reached');
-    $(this).val($(this).data('oldValue'));
-  }
-});
+  // SPINNER PLUGIN DEFINITION
+  // =========================
 
-$(".input-number").keydown(function (e) {
-  // Allow: backspace, delete, tab, escape, enter and .
-  if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
-       // Allow: Ctrl+A
-      (e.keyCode == 65 && e.ctrlKey === true) ||
-       // Allow: home, end, left, right
-      (e.keyCode >= 35 && e.keyCode <= 39)) {
-           // let it happen, don't do anything
-           return;
+  var old = $.fn.spinner
+
+  $.fn.spinner = function (option, relatedTarget) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.spinner')
+      var options = $.extend({}, Spinner.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data) $this.data('bs.spinner', (data = new Spinner(this, options)))
+
+      if (typeof option == 'string') data[option](relatedTarget)
+      else data['change'](relatedTarget)
+    })
   }
 
-  // Ensure that it is a number and stop the keypress
-  if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-      e.preventDefault();
+  $.fn.spinner.Constructor = Spinner
+
+  // SPINNER NO CONFLICT
+  // ===================
+
+  $.fn.spinner.noConflict = function () {
+    $.fn.spinner = old
+    return this
   }
-});
+
+  // SPINNER DATA-API
+  // ================
+
+  $(document).on('click.bs.spinner.data-api', '[data-toggle="spinner"]', function (e) {
+    var $this   = $(this)
+    var href    = $this.attr('href')
+    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
+    var option  = $target.data('bs.spinner') ? 'change' : $target.data()
+
+    if ($this.is('a')) e.preventDefault()
+
+    $target.spinner(option, this)
+  })
+
+}(jQuery);
