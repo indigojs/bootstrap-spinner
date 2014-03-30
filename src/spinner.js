@@ -102,21 +102,13 @@
     var $this   = $(this)
     var href    = $this.attr('href')
     var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-    var option  = $target.data('bs.spinner') ? 'add' : $target.data()
     var value   = $this.data('value')
-
-    if (true) {};
 
     if ($this.is('a')) e.preventDefault()
 
-    $target.spinner(option, this)
-  })
+    if (value !== 'increase' && value !== 'decrease') value = new Number(value)
 
-  $(window).on('load', function () {
-    $('[data-ride="spinner"]').each(function () {
-      var $spinner = $(this)
-      $spinner.spinner($spinner.data())
-    })
+    $target.spinner(value)
   })
 
 }(jQuery);
