@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         expand: true,
         flatten: true,
         src: [
-          'src/spinner.js',
+          'src/bootstrap-spinner.js',
           'src/mousehold.js'
         ],
         dest: 'dist/'
@@ -26,8 +26,8 @@ module.exports = function(grunt) {
         report: 'min'
       },
       spinner: {
-        src: 'dist/spinner.js',
-        dest: 'dist/spinner.min.js'
+        src: 'dist/bootstrap-spinner.js',
+        dest: 'dist/bootstrap-spinner.min.js'
       },
       mousehold: {
         src: 'dist/mousehold.js',
