@@ -13,7 +13,7 @@ bower install bootstrap-spinner
 
 ## Usage
 
-See an example [here](http://indigojs.github.com/bootstrap-spinner/).
+See an example [here](http://indigojs.github.io/bootstrap-spinner/).
 
 
 ## Credits
