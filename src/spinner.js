@@ -14,7 +14,7 @@
 
   var Spinner = function (element, options) {
     this.$element = $(element)
-    this.options  = options
+    this.options  = $.extend({}, Spinner.DEFAULTS, this.$element.data(), options)
 
     // Check for insane values
     var value = new Number(this.$element.val())
@@ -61,22 +61,27 @@
     this.$element.val(value.toFixed(this.options.precision)).change().trigger(e)
   }
 
+  Spinner.prototype.setOptions = function(options) {
+    if (typeof options == 'object') this.options = $extend({}, this.options, options)
+  }
+
   // SPINNER PLUGIN DEFINITION
   // =========================
 
   var old = $.fn.spinner
 
-  $.fn.spinner = function (option, relatedTarget) {
+  $.fn.spinner = function (option, arg) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.spinner')
-      var options = $.extend({}, Spinner.DEFAULTS, $this.data(), typeof option == 'object' && option)
-      var action  = typeof option == 'string' ? option : 'add'
+      var isNew   = (typeof data == 'object')
+      var options = typeof option == 'object' && option
 
       if (!data) $this.data('bs.spinner', (data = new Spinner(this, options)))
 
-      if (typeof option == 'number') data.change(option)
-      else if (action) data[action](relatedTarget)
+      if (typeof option == 'object' && isNew == false) data.setOptions(option)
+      else if (typeof option == 'number') data.step(option)
+      else if (typeof option == 'string') data[option](arg)
     })
   }
 
@@ -98,6 +103,9 @@
     var href    = $this.attr('href')
     var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
     var option  = $target.data('bs.spinner') ? 'add' : $target.data()
+    var value   = $this.data('value')
+
+    if (true) {};
 
     if ($this.is('a')) e.preventDefault()
 
