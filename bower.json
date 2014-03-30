@@ -2,14 +2,14 @@
   "name": "bootstrap-spinner",
   "version": "1.0.0",
   "main": [
-    "./src/spinner.js"
+    "./dist/spinner.js"
   ],
   "authors": [
     "Márk Sági-Kazár <mark.sagikazar@gmail.com>"
   ],
   "description": "Bootstrap-style spinner plugin",
   "license": "MIT",
-  "homepage": "https://indigophp.com",
+  "homepage": "http://indigojs.github.io/bootstrap-spinner",
   "ignore": [
     "**/.*",
     "node_modules",

@@ -9,13 +9,15 @@ module.exports = function(grunt) {
       dist: ['dist']
     },
 
-    concat: {
+    copy: {
       dist: {
+        expand: true,
+        flatten: true,
         src: [
-          'src/spinner.js',
+          'src/bootstrap-spinner.js',
           'src/mousehold.js'
         ],
-        dest: 'dist/bootstrap-spinner.js'
+        dest: 'dist/'
       }
     },
 
@@ -23,9 +25,13 @@ module.exports = function(grunt) {
       options: {
         report: 'min'
       },
-      dist: {
+      spinner: {
         src: 'dist/bootstrap-spinner.js',
         dest: 'dist/bootstrap-spinner.min.js'
+      },
+      mousehold: {
+        src: 'dist/mousehold.js',
+        dest: 'dist/mousehold.min.js'
       }
     }
 
@@ -33,5 +39,5 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', ['clean', 'concat', 'uglify']);
+  grunt.registerTask('default', ['clean', 'copy', 'uglify']);
 };

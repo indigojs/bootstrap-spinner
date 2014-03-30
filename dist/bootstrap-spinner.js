@@ -3,7 +3,7 @@
  * http://github.com/indigojs
  * ========================================================================
  * Copyright 2014 Márk Sági-Kazár
- * Licensed under MIT (https://github.com/indigojs/bootstrap/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/indigojs/bootstrap-spinner/blob/master/LICENSE)
  * ======================================================================== */
 
 +function ($) {
@@ -90,6 +90,17 @@
   // SPINNER NO CONFLICT
   // ===================
 
+  var trigger = function (event) {
+    var $this   = $(this)
+    var href    = $this.attr('href')
+    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
+    var value   = $this.data('value')
+
+    if ($this.is('a')) event.preventDefault()
+
+    $target.spinner(value)
+  }
+
   $.fn.spinner.noConflict = function () {
     $.fn.spinner = old
     return this
@@ -98,19 +109,8 @@
   // SPINNER DATA-API
   // ================
 
-  var trigger = function () {
-    var $this   = $(this)
-    var href    = $this.attr('href')
-    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-    var value   = $this.data('value')
-
-    if ($this.is('a')) e.preventDefault()
-
-      $target.spinner(value)
-  }
-
-  $(document).on('click.bs.spinner.data-api', '[data-toggle="spinner"][data-on!="mousehold"]', trigger)
-
-  $('[data-toggle="spinner"][data-on="mousehold"]').mousehold(trigger)
+  $(document)
+    .on('click.bs.spinner.data-api', '[data-toggle="spinner"][data-on!="mousehold"]', trigger)
+    .on('mousehold.bs.spinner.data-api', '[data-toggle="spinner"]', trigger)
 
 }(jQuery);
