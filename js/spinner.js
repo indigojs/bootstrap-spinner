@@ -1,6 +1,6 @@
 /* ========================================================================
  * Bootstrap: spinner.js v3.1.1
- * http://
+ * http://github.com/indigojs
  * ========================================================================
  * Copyright 2014 Márk Sági-Kazár
  * Licensed under MIT (https://github.com/indigojs/bootstrap/blob/master/LICENSE)
@@ -15,37 +15,50 @@
   var Spinner = function (element, options) {
     this.$element = $(element)
     this.options  = options
+
+    // Check for insane values
+    var value = new Number(this.$element.val())
+    if (isNaN(value)) this.$element.val(this.options.min)
   }
 
   Spinner.DEFAULTS = {
+    step: 1,
     min: 0,
     max: Infinity,
     precision: 0
   }
 
-  Spinner.prototype.add = function (relatedTarget) {
-    this.change($(relatedTarget).data('value'))
+  Spinner.prototype.increase = function() {
+    this.step(this.options.step)
   }
 
-  Spinner.prototype.change = function (num) {
-    if (typeof num !== "number") num = new Number(num)
+  Spinner.prototype.decrease = function() {
+    this.step(-this.options.step)
+  }
+
+  Spinner.prototype.step = function (value) {
+    if (typeof value !== "number") value = new Number(value)
+    if (isNaN(value)) return
+
     var current = new Number(this.$element.val())
+    if (isNaN(current)) current = this.options.min
 
-    // TODO: improve insane data handling
-    if (isNaN(num) || isNaN(current) || num == 0) return
-    var newVal = current + num
-    newVal = newVal.toFixed(this.options.precision);
+    this.change(current + value)
+  }
 
-    var e = $.Event('change.bs.spinner', { target: this.$element, relatedTarget: num })
+  Spinner.prototype.change = function(value) {
+    if (typeof value !== "number") value = new Number(value)
+    if (isNaN(value)) value = this.options.min
+
+    if (value < this.options.min) value = this.options.min
+    if (value > this.options.max) value = this.options.max
+
+    var e = $.Event('change.bs.spinner', { value: value })
     this.$element.trigger(e)
 
-    if (num < 0) {
-      if (newVal <= this.options.min) newVal = this.options.min
-    } else {
-      if (newVal >= this.options.max) newVal = this.options.max
-    }
+    e = $.Event('changed.bs.spinner')
 
-    this.$element.val(newVal)
+    this.$element.val(value.toFixed(this.options.precision)).change().trigger(e)
   }
 
   // SPINNER PLUGIN DEFINITION
@@ -89,6 +102,13 @@
     if ($this.is('a')) e.preventDefault()
 
     $target.spinner(option, this)
+  })
+
+  $(window).on('load', function () {
+    $('[data-ride="spinner"]').each(function () {
+      var $spinner = $(this)
+      $spinner.spinner($spinner.data())
+    })
   })
 
 }(jQuery);
