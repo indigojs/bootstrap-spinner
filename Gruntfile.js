@@ -9,9 +9,12 @@ module.exports = function(grunt) {
       dist: ['dist']
     },
 
-    copy: {
+    concat: {
       dist: {
-        src: 'src/spinner.js',
+        src: [
+          'src/spinner.js',
+          'src/mousehold.js'
+        ],
         dest: 'dist/bootstrap-spinner.js'
       }
     },
@@ -30,5 +33,5 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', ['clean', 'copy', 'uglify']);
+  grunt.registerTask('default', ['clean', 'concat', 'uglify']);
 };
