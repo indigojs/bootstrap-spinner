@@ -62,7 +62,7 @@
   }
 
   Spinner.prototype.setOptions = function(options) {
-    if (typeof options == 'object') this.options = $extend({}, this.options, options)
+    if (typeof options == 'object') this.options = $.extend({}, this.options, options)
   }
 
   // SPINNER PLUGIN DEFINITION
@@ -105,8 +105,6 @@
     var value   = $this.data('value')
 
     if ($this.is('a')) e.preventDefault()
-
-    if (value !== 'increase' && value !== 'decrease') value = new Number(value)
 
     $target.spinner(value)
   })
