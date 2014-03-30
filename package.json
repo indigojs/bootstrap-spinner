@@ -2,7 +2,7 @@
   "name": "bootstrap-spinner",
   "description": "Bootstrap-style spinner plugin",
   "version": "1.0.0",
-  "homepage": "https://indigophp.com",
+  "homepage": "http://indigojs.github.io/bootstrap-spinner",
   "author": "Márk Sági-Kazár",
   "license": {
     "type": "MIT",
