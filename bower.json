@@ -1,0 +1,24 @@
+{
+  "name": "bootstrap-spinner",
+  "version": "1.0.0",
+  "main": [
+    "./src/spinner.js"
+  ],
+  "authors": [
+    "Márk Sági-Kazár <mark.sagikazar@gmail.com>"
+  ],
+  "description": "Bootstrap-style spinner plugin",
+  "license": "MIT",
+  "homepage": "https://indigophp.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.9.0"
+  },
+  "devDependencies": {
+    "bootstrap": "3.1.1"
+  }
+}
