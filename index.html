@@ -7,19 +7,21 @@
     <meta name="description" content="Bootstrap-spinner : " />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/prettify.css" rel="stylesheet">
 
-    <title>Bootstrap-spinner</title>
+
+    <title>Bootstrap Spinner</title>
   </head>
 
-  <body>
+  <body onload="prettyPrint();">
 
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/indigojs/bootstrap-spinner">View on GitHub</a>
 
-          <h1 id="project_title">Bootstrap-spinner</h1>
+          <h1 id="project_title">Bootstrap Spinner</h1>
           <h2 id="project_tagline"></h2>
 
             <section id="downloads">
@@ -32,9 +34,175 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3><a name="bootstrap-spinner" class="anchor" href="#bootstrap-spinner"><span class="octicon octicon-link"></span></a>bootstrap-spinner</h3>
+        <h3><a name="bootstrap-spinner" class="anchor" href="#bootstrap-spinner"><span class="octicon octicon-link"></span></a>Bootstrap Spinner</h3>
 
         <p>A spinner plugin using bootstrap elements. (Can be used without bootstrap itself)</p>
+
+        <h2>Example</h2>
+        <div class="bs-docs-example">
+          <p>Basic example</p>
+
+          <div class="input-group">
+              <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" data-value="decrease" data-target="#spinner" data-toggle="spinner">
+                      <span class="glyphicon glyphicon-minus"></span>
+                  </button>
+              </span>
+              <input type="text" data-ride="spinner" id="spinner" class="form-control input-number" value="1" autocomplete="off">
+              <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" data-value="increase" data-target="#spinner" data-toggle="spinner">
+                      <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+              </span>
+          </div>
+        </div>
+        <pre class="prettyprint linenums">
+&lt;div class=&quot;input-group&quot;&gt;
+    &lt;span class=&quot;input-group-btn&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-value=&quot;decrease&quot; data-target=&quot;#spinner&quot; data-toggle=&quot;spinner&quot;&gt;
+            &lt;span class=&quot;glyphicon glyphicon-minus&quot;&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/span&gt;
+    &lt;input type=&quot;text&quot; data-ride=&quot;spinner&quot; id=&quot;spinner&quot; class=&quot;form-control input-number&quot; value=&quot;1&quot;&gt;
+    &lt;span class=&quot;input-group-btn&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-value=&quot;increase&quot; data-target=&quot;#spinner&quot; data-toggle=&quot;spinner&quot;&gt;
+            &lt;span class=&quot;glyphicon glyphicon-plus&quot;&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/span&gt;
+&lt;/div&gt;</pre>
+
+
+        <div class="bs-docs-example">
+          <p>Advanced example</p>
+
+          <p>Hold mouse on increase button (you must include mousehold.js)</p>
+
+          <div class="input-group">
+              <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" data-value="-2" data-target="#spinner2" data-toggle="spinner">
+                      <span class="glyphicon glyphicon-minus"></span>
+                  </button>
+              </span>
+              <input type="text" data-ride="spinner" id="spinner2" class="form-control input-number" value="1" data-min="1" data-max="10" autocomplete="off">
+              <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" data-value="1" data-target="#spinner2" data-toggle="spinner" data-on="mousehold">
+                      <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+              </span>
+          </div>
+        </div>
+        <pre class="prettyprint linenums">
+&lt;div class=&quot;input-group&quot;&gt;
+    &lt;span class=&quot;input-group-btn&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-value=&quot;-1&quot; data-target=&quot;#spinner2&quot; data-toggle=&quot;spinner&quot;&gt;
+            &lt;span class=&quot;glyphicon glyphicon-minus&quot;&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/span&gt;
+    &lt;input type=&quot;text&quot; data-ride=&quot;spinner&quot; id=&quot;spinner2&quot; class=&quot;form-control input-number&quot; value=&quot;1&quot; data-min=&quot;1&quot; data-max=&quot;10&quot;&gt;
+    &lt;span class=&quot;input-group-btn&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-value=&quot;2&quot; data-target=&quot;#spinner2&quot; data-toggle=&quot;spinner&quot; data-on=&quot;mousehold&quot;&gt;
+            &lt;span class=&quot;glyphicon glyphicon-plus&quot;&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/span&gt;
+&lt;/div&gt;</pre>
+
+
+        <h1 id="init">Init</h1>
+        <p>The plugin can be initialized several ways:</p>
+
+        <h3>Via data-attribute</h3>
+        <p>Plugin options can also be passed as data-attributes. It is advised to set <code>data-ride="spinner"</code> on the spinner element to avoid inconsistent values. Anyway, initialize it view javascript.</p>
+        <pre class="prettyprint linenums">
+&lt;div class=&quot;input-group&quot;&gt;
+    &lt;span class=&quot;input-group-btn&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-value=&quot;-1&quot; data-target=&quot;#spinner2&quot; data-toggle=&quot;spinner&quot;&gt;
+            &lt;span class=&quot;glyphicon glyphicon-minus&quot;&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/span&gt;
+    &lt;input type=&quot;text&quot; data-ride=&quot;spinner&quot; id=&quot;spinner2&quot; class=&quot;form-control input-number&quot; value=&quot;1&quot; data-min=&quot;1&quot; data-max=&quot;10&quot;&gt;
+    &lt;span class=&quot;input-group-btn&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-value=&quot;2&quot; data-target=&quot;#spinner2&quot; data-toggle=&quot;spinner&quot; data-on=&quot;mousehold&quot;&gt;
+            &lt;span class=&quot;glyphicon glyphicon-plus&quot;&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/span&gt;
+&lt;/div&gt;</pre>
+
+        <h3>Via javascript</h3>
+        <pre class="prettyprint linenums">
+$('.spinner').spinner({
+  min: 0,
+  max: 10
+});</pre>
+
+        <h1 id="options">Options</h1>
+
+        <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-min=""</code>.</p>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th style="width: 100px;">Name</th>
+              <th style="width: 100px;">type</th>
+              <th style="width: 50px;">default</th>
+              <th>description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>step</td>
+              <td>integer|float</td>
+              <td>1</td>
+              <td>Default step value</td>
+            </tr>
+            <tr>
+              <td>min</td>
+              <td>integer</td>
+              <td>0</td>
+              <td>Minimum value</td>
+            </tr>
+            <tr>
+              <td>max</td>
+              <td>integer</td>
+              <td>Infinity</td>
+              <td>Maximum value</td>
+            </tr>
+            <tr>
+              <td>strict</td>
+              <td>boolean</td>
+              <td>true</td>
+              <td>Strict check entered value (input)</td>
+            </tr>
+            <tr>
+              <td>precision</td>
+              <td>integer</td>
+              <td>0</td>
+              <td>Default precision</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h1 id="methods">Methods</h1>
+
+        <h3>increase()</h3>
+        <p>Increase the value with the default step. Called automatically by elements (buttons) with <code>data-value="increase"</code></p>
+        <pre class="prettyprint linenums">$('.spinner').('increase')</pre>
+
+        <h3>decrease()</h3>
+        <p>Same as increase() with the opposite functionality</p>
+
+        <h3>step(value)</h3>
+        <p>Override the default value of step. Can be used with <code>data-value="integer|float value"</code>. Negative sign indicates direction.</p>
+
+        <pre class="prettyprint linenums">$('.spinner').step(-1)</pre>
+
+        <h3>setOptions(options)</h3>
+        <p>Set options. Function name can be omitted.</p>
+
+        <pre class="prettyprint linenums">$('.spinner').spinner({min: 0, max: 10})</pre>
+
+        <h3>change(value)</h3>
+        <p>Change the value. Function name can be omitted. Precision and min/max value checks apply.</p>
+
+        <pre class="prettyprint linenums">$('.spinner').spinner(12)</pre>
       </section>
     </div>
 
@@ -45,6 +213,12 @@
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="javascripts/prettify.js"></script>
+    <script src="javascripts/bootstrap-spinner.js"></script>
+    <script src="javascripts/mousehold.js"></script>
 
     <script type="text/javascript">
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
