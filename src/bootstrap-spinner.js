@@ -13,19 +13,54 @@
   // =========================
 
   var Spinner = function (element, options) {
+    var $this = this;
     this.$element = $(element)
     this.options  = $.extend({}, Spinner.DEFAULTS, this.$element.data(), options)
 
     // Check for insane values
     var value = new Number(this.$element.val())
     if (isNaN(value)) this.$element.val(this.options.min)
+
+    // Strict check entered value
+    if (this.options.strict == true) {
+      this.$element.on('keypress', function (e) {
+        var prevent = false
+
+        if (e.which == 45 || e.keyCode == 40) {
+          $this.decrease()
+          return false
+        } else if (e.which == 43 || e.keyCode == 38) {
+          $this.increase()
+          return false
+        }
+
+        // Allow: backspace, delete, tab, escape, enter, home, end, left, right
+        // Allow: Ctrl+A
+        // Allow: home, end, left, right
+        // Allow . if precision is gt 0
+        if ($.inArray(e.keyCode, [8, 46, 9, 27, 13, 36, 35, 37, 39]) !== -1 ||
+            (e.which == 65 && e.ctrlKey === true) ||
+            ($this.options.precision > 0 && $this.$element.val().indexOf(".") == -1 && e.which == 46)) {
+                 return
+        }
+
+        // Ensure that it is a number and stop the keypress
+        if (e.which < 48 || e.which > 57) return false
+      });
+
+      // Validate after focus lost
+      this.$element.on('blur', function (e) {
+        $this.change($this.$element.val())
+      })
+    }
   }
 
   Spinner.DEFAULTS = {
     step: 1,
     min: 0,
     max: Infinity,
-    precision: 0
+    precision: 0,
+    strict: true
   }
 
   Spinner.prototype.increase = function() {
@@ -112,5 +147,11 @@
   $(document)
     .on('click.bs.spinner.data-api', '[data-toggle="spinner"][data-on!="mousehold"]', trigger)
     .on('mousehold.bs.spinner.data-api', '[data-toggle="spinner"]', trigger)
+
+  $(window).on('load', function () {
+    $('[data-ride="spinner"]').each(function () {
+      $(this).spinner()
+    })
+  })
 
 }(jQuery);
