@@ -40,7 +40,7 @@
         // Allow . if precision is gt 0
         if ($.inArray(e.keyCode, [8, 46, 9, 27, 13, 36, 35, 37, 39]) !== -1 ||
             (e.which == 65 && e.ctrlKey === true) ||
-            ($this.options.precision > 0 && $this.$element.val().indexOf(".") == -1 && e.which == 46)) {
+            ($this.options.precision > 0 && $this.$element.val().indexOf('.') == -1 && e.which == 46)) {
                  return
         }
 
@@ -72,7 +72,7 @@
   }
 
   Spinner.prototype.step = function (value) {
-    if (typeof value !== "number") value = new Number(value)
+    if (typeof value !== 'number') value = new Number(value)
     if (isNaN(value)) return
 
     var current = new Number(this.$element.val())
@@ -82,7 +82,7 @@
   }
 
   Spinner.prototype.change = function(value) {
-    if (typeof value !== "number") value = new Number(value)
+    if (typeof value !== 'number') value = new Number(value)
     if (isNaN(value)) value = this.options.min
 
     if (value < this.options.min) value = this.options.min
