@@ -93,7 +93,7 @@
 
     e = $.Event('changed.bs.spinner')
 
-    this.$element.val(value.toFixed(this.options.precision)).change().trigger(e)
+    this.$element.val(value.toFixed(this.options.precision)).trigger(e)
   }
 
   Spinner.prototype.setOptions = function(options) {
